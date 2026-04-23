@@ -3,7 +3,9 @@ import Fastify from "fastify";
 import { env } from "./config/env";
 import prismaPlugin from "./plugins/prisma";
 import jwtPlugin from "./plugins/jwt";
+import authenticatePlugin from "./plugins/authenticate";
 import authRoutes from "./modules/auth/auth.routes";
+import sitesRoutes from "./modules/sites/sites.routes";
 
 const server = Fastify({
   logger: {
@@ -19,16 +21,17 @@ const server = Fastify({
 // Plugins
 server.register(prismaPlugin);
 server.register(jwtPlugin);
+server.register(authenticatePlugin);
 
 // Routes
 server.register(authRoutes);
+server.register(sitesRoutes);
 
 // Health check
 server.get("/health", async () => {
   return { status: "ok", timestamp: new Date().toISOString() };
 });
 
-// Avvio server
 const start = async () => {
   try {
     await server.listen({ port: env.PORT, host: "0.0.0.0" });
