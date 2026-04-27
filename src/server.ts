@@ -6,6 +6,8 @@ import jwtPlugin from "./plugins/jwt";
 import authenticatePlugin from "./plugins/authenticate";
 import authRoutes from "./modules/auth/auth.routes";
 import sitesRoutes from "./modules/sites/sites.routes";
+import workersRoutes from "./modules/workers/workers.routes";
+import workLogsRoutes from "./modules/worklogs/worklogs.routes";
 
 const server = Fastify({
   logger: {
@@ -26,6 +28,8 @@ server.register(authenticatePlugin);
 // Routes
 server.register(authRoutes);
 server.register(sitesRoutes);
+server.register(workersRoutes);
+server.register(workLogsRoutes);
 
 // Health check
 server.get("/health", async () => {
